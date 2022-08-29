@@ -3,9 +3,10 @@ import {juggler} from '@loopback/repository';
 
 const config = {
   name: 'users',
-  connector: 'rest',
-  baseURL: 'localhost:3000/users',
-  crud: true
+  connector: 'openapi',
+  spec: 'http://localhost:3000/explorer/openapi.json',
+  validate: false,
+  positional: false,
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -13,8 +14,10 @@ const config = {
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class UsersDataSource extends juggler.DataSource
-  implements LifeCycleObserver {
+export class UsersDataSource
+  extends juggler.DataSource
+  implements LifeCycleObserver
+{
   static dataSourceName = 'users';
   static readonly defaultConfig = config;
 
